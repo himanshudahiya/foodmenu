@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'Login.dart';
 import 'Page2.dart';
 import 'CitiesClass.dart';
+import 'package:intl/intl.dart';
 class HomePage extends StatefulWidget {
   static String tag = 'home-page';
   String title;
@@ -63,16 +64,25 @@ class HomePageState extends State<HomePage> {
     }
     return userAcc;
   }
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate = new DateTime.now();
+  String formattedDate;
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
+        firstDate: selectedDate.subtract(Duration(days: 1)),
+        lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.dark(),
+          child: child,
+        );
+      },
+    );
     if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
+        formattedDate =  DateFormat("EEEE dd/MM/yyyy").format(selectedDate);
       });
   }
 
@@ -248,7 +258,7 @@ class HomePageState extends State<HomePage> {
             shrinkWrap: true,
             padding: EdgeInsets.only(left: 24.0, right: 24.0),
              children: <Widget>[
-               Text("${selectedDate.toLocal()}"),
+               Text("${formattedDate}"),
                SizedBox(height: 20.0,),
                RaisedButton(
                  onPressed: () => _selectDate(context),
