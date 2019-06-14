@@ -63,6 +63,18 @@ class HomePageState extends State<HomePage> {
     }
     return userAcc;
   }
+  DateTime selectedDate = DateTime.now();
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
+  }
 
   Future<List<String>> UserCities() async {
     String url = config().getCity;
@@ -236,6 +248,12 @@ class HomePageState extends State<HomePage> {
             shrinkWrap: true,
             padding: EdgeInsets.only(left: 24.0, right: 24.0),
              children: <Widget>[
+               Text("${selectedDate.toLocal()}"),
+               SizedBox(height: 20.0,),
+               RaisedButton(
+                 onPressed: () => _selectDate(context),
+                 child: Text('Select date'),
+               ),
               cityDropDown,
               otherDropDown,
               nextButton
