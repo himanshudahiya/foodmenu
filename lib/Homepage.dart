@@ -168,7 +168,7 @@ class HomePageState extends State<HomePage> {
           });
         },
         hint: Text(
-          "Please select the city!",
+          "Please select the kitchen!",
           style: TextStyle(
             color: Colors.black,
           ),
@@ -192,7 +192,7 @@ class HomePageState extends State<HomePage> {
           });
         },
         hint: Text(
-          "Please select!",
+          "Please select the disposal type!",
           style: TextStyle(
             color: Colors.black,
           ),
@@ -222,7 +222,7 @@ class HomePageState extends State<HomePage> {
       appBar: new AppBar(
         // here we display the title corresponding to the fragment
         // you can instead choose to have a static title
-        title: new Text('HomePage'),
+        title: new Text('Food Tracker'),
         elevation: 0,
         centerTitle: false,
 

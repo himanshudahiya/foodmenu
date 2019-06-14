@@ -91,7 +91,7 @@ class Page2State extends State<Page2> {
         appBar: new AppBar(
           // here we display the title corresponding to the fragment
           // you can instead choose to have a static title
-          title: new Text('Page 2'),
+          title: new Text('Meal Type'),
           elevation: 0,
           centerTitle: false,
 
