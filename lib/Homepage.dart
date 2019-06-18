@@ -69,8 +69,8 @@ class HomePageState extends State<HomePage> {
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
-        initialDate: selectedDate,
-        firstDate: selectedDate.subtract(Duration(days: 1)),
+        initialDate: new DateTime.now(),
+        firstDate: new DateTime.now().subtract(Duration(days: 1)),
         lastDate: DateTime(2101),
       builder: (BuildContext context, Widget child) {
         return Theme(
