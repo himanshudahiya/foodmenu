@@ -11,8 +11,9 @@ class Page2 extends StatefulWidget {
   static String tag = 'page2';
   String title;
   final String cityName;
-  final String type;
-  Page2({Key key, @required this.cityName, @required this.type}) : super(key: key);
+  final String mealType;
+  final String date;
+  Page2({Key key, @required this.cityName, @required this.mealType, @required this.date}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return new Page2State();

@@ -70,14 +70,14 @@ class HomePageState extends State<HomePage> {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: selectedDate.subtract(Duration(days: 1)),
+        firstDate: selectedDate.subtract(Duration(days: 100)),
         lastDate: DateTime(2101),
-      builder: (BuildContext context, Widget child) {
-        return Theme(
-          data: ThemeData.dark(),
-          child: child,
-        );
-      },
+//      builder: (BuildContext context, Widget child) {
+//        return Theme(
+//          data: ThemeData.dark(),
+//          child: child,
+//        );
+//      },
     );
     if (picked != null && picked != selectedDate)
       setState(() {
@@ -99,6 +99,25 @@ class HomePageState extends State<HomePage> {
     CitiesList citiesList = CitiesList.fromJson(responseJson);
     citiesListNew = createCityList(citiesList);
     return citiesListNew;
+
+  }
+  Future<String> postreq1(String date, String mealType, String city) async{
+    Map<String, String> jsonMap = {
+      'todo': date.toString(),
+      'todo1': city.toString(),
+      'todo2': mealType.toString()
+    };
+    String jsonString = json.encode(jsonMap);
+    String formBody =  Uri.encodeQueryComponent(jsonString);
+    // utf8 encode
+    String url = config().postAPI1;
+    var request = await http.post(url, headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: formBody);
+    print(request.body.toLowerCase());
+    return request.body.toString();
 
   }
 
@@ -201,7 +220,7 @@ class HomePageState extends State<HomePage> {
     var otherDropDown = Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: new DropdownButton<String>(
-        items: <String>['Dispatched', 'Wastage', 'Recieved'].map((String value) {
+        items: <String>['breakfast', 'lunch', 'dinnre'].map((String value) {
           return new DropdownMenuItem<String>(
             value: value,
             child: new Text(value),
@@ -214,7 +233,7 @@ class HomePageState extends State<HomePage> {
           });
         },
         hint: Text(
-          "Please select the disposal type!",
+          "Please select the Meal type!",
           style: TextStyle(
             color: Colors.black,
           ),
@@ -222,6 +241,8 @@ class HomePageState extends State<HomePage> {
         value: selectedType,
       ),
     );
+
+
     var nextButton  = Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: Material(
@@ -232,8 +253,12 @@ class HomePageState extends State<HomePage> {
           minWidth: 200.0,
           height: 42.0,
           onPressed: () {
-            final pageRoute = MaterialPageRoute(builder: (context)=>Page2(cityName: selectedCity, type: selectedType,));
-            Navigator.of(context).push(pageRoute);
+            var response = postreq1(formattedDate, selectedType,selectedCity);
+            if(response == "Okayyyz") {
+              final pageRoute = MaterialPageRoute(builder: (context) =>
+                  Page2(date: formattedDate, cityName: selectedCity, mealType: selectedType,));
+              Navigator.of(context).push(pageRoute);
+            }
           },
           color: Colors.lightBlueAccent,
           child: Text('Next ', style: TextStyle(color: Colors.white)),
